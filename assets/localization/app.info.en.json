@@ -1,0 +1,9 @@
+{
+  "NSLocationWhenInUseUsageDescription": "We need to use location services in order to provide address directions and to show registered companies that are close to you. Do you confirm?",
+  "NSCameraUsageDescription": "We need access to your camera so that you can send photos while sending messages to companies and creating product requests. Do you confirm?",
+  "cameraPermission": "We need access to your camera so that you can send photos while sending messages to companies and creating product requests. Do you confirm?",
+  "NSPhotoLibraryUsageDescription": "We need to access your image gallery so that you can send photos while sending messages to companies and creating product requests. Do you confirm?",
+  "photosPermission": "We need to access your image gallery so that you can send photos while sending messages to companies and creating product requests. Do you confirm?",
+  "NSPhotoLibraryAddUsageDescription": "We need your permission to save the selected photos in your gallery. Do you confirm?",
+  "savePhotosPermission": "We need your permission to save the selected photos in your gallery. Do you confirm?"
+}
