@@ -5,5 +5,5 @@ export type AppNavigatorParamList = {
     Setting: undefined;
     LanguageSelect: {
         languageType: 'from' | 'to'
-    }
+    };
 }

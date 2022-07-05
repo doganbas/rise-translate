@@ -9,10 +9,12 @@ import {TranslationHistoryStyle} from '../../style/components/translationHistory
 import {ApplicationStates} from '../../stores/applicationStore';
 import LottiePlayer from '../../components/tools/LottiePlayer';
 import {CustomThunkDispatch} from '../../types';
+import {useNavigation} from '@react-navigation/native';
 
 const LiveTranslate: FunctionComponent = () => {
     const {t} = useTranslation();
     const dispatch = useDispatch<CustomThunkDispatch>();
+    const navigation = useNavigation();
     const translationState = useSelector<ApplicationStates, TranslationState>(states => states.TranslationState);
     const [translateValue, setTranslateValue] = useState<string | undefined>();
     const [translateEvetId, setTranslateEvetId] = useState<number | undefined>();
@@ -56,7 +58,7 @@ const LiveTranslate: FunctionComponent = () => {
                 } else {
                     return (
                         <TouchableOpacity style={TranslationHistoryStyle.loaderIconContainer} onPress={() => {
-                            alert('Test');
+                            //TODO Speech
                         }}>
                             <MaterialCommunityIcons name="text-to-speech" style={TranslationHistoryStyle.translateInputIcon}/>
                         </TouchableOpacity>
