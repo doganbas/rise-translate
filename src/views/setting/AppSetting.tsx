@@ -1,9 +1,11 @@
 import React, {FunctionComponent} from 'react';
 import {View} from 'react-native';
+import {BaseStyle} from '../../style/components/baseStyle';
 
 export const AppSetting: FunctionComponent = () => {
+
     return (
-        <View>
+        <View style={BaseStyle.pageContainer}>
 
         </View>
     )

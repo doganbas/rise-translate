@@ -113,6 +113,7 @@ export const translationActionCreators = {
     },
     setTranslationLang: (fromLang: string, toLang: string): AppThunkAction<KnownAction> => (dispatch) => {
         dispatch({type: 'SET_TRANSLATION_LANG_ACTION', fromLang, toLang});
+        //TODO Get Translation
     }
 }
 

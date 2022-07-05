@@ -33,8 +33,8 @@ const AppRoutes: FunctionComponent = () => {
             }}
         >
             <AppNavigator.Screen name="Home" component={LaunchScreen} options={{tabBarIcon: ({focused}) => renderBarIcon(focused, 'translate', t('screen-home-tab-title', 'Anasayfa')), tabBarShowLabel: false}}/>
-            <AppNavigator.Screen name="History" component={TranslateHistory} options={{tabBarIcon: ({focused}) => renderBarIcon(focused, 'translate', t('screen-history-tab-title', 'Arama Geçmişi')), tabBarShowLabel: false}}/>
-            <AppNavigator.Screen name="Setting" component={AppSetting} options={{tabBarIcon: ({focused}) => renderBarIcon(focused, 'translate', t('screen-setting-tab-title', 'Ayarlar')), tabBarShowLabel: false}}/>
+            <AppNavigator.Screen name="History" component={TranslateHistory} options={{tabBarIcon: ({focused}) => renderBarIcon(focused, 'history', t('screen-history-tab-title', 'Çeviri Geçmişi')), tabBarShowLabel: false}}/>
+            <AppNavigator.Screen name="Setting" component={AppSetting} options={{tabBarIcon: ({focused}) => renderBarIcon(focused, 'cog', t('screen-setting-tab-title', 'Ayarlar')), tabBarShowLabel: false}}/>
         </AppNavigator.Navigator>
     )
 }

@@ -2,7 +2,7 @@ import {StyleSheet} from 'react-native';
 import StylesHelper from '../../helpers/stylesHelper';
 import SizeHelper from '../../helpers/sizeHelper';
 
-export const TranslatorStyle = StyleSheet.create({
+export const TranslationHistoryStyle = StyleSheet.create({
     languageDisplayContainer: {
         borderBottomWidth: 1,
         borderBottomColor: StylesHelper.gray400,
