@@ -3,4 +3,7 @@ export type AppNavigatorParamList = {
     TestPage: undefined;
     History: undefined;
     Setting: undefined;
+    LanguageSelect: {
+        languageType: 'from' | 'to'
+    }
 }

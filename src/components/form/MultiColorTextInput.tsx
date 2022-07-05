@@ -30,7 +30,7 @@ const MultiColorTextInput: FunctionComponent<{
                     autoFocus={props.autoFocus}
                     ref={searchInputRef}
                     placeholder={props.placeholder}
-                    placeholderTextColor={StylesHelper.gray800}
+                    placeholderTextColor={StylesHelper.project3}
                     style={[...props.inputStyle(props.value), props.value ? {color: inputColor} : null]}
                     onFocus={() => setInputFocused(true)}
                     onBlur={() => setInputFocused(false)}

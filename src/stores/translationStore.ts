@@ -1,16 +1,16 @@
+import {Action, Reducer} from 'redux';
+import fetchApi, {AxiosError} from 'axios';
+import {applicationLoaderActionCreators} from './applicationLoaderStore';
+import {applicationErrorActionCreators} from './applicationErrorStore';
+import applicationConfig from '../config/applicationConfig';
 import {TranslationModel} from '../models/translationModel';
 import {ApiLanguageModel} from '../models/apiLanguageModel';
-import {Action, Reducer} from 'redux';
-import {AppThunkAction} from './applicationStore';
-import DateHelper from '../helpers/dateHelper';
-import fetchApi, {AxiosError} from 'axios';
-import applicationConfig from '../config/applicationConfig';
-import {CustomThunkDispatch} from '../types';
-import {applicationErrorActionCreators} from './applicationErrorStore';
 import {ExceptionType} from '../enums/exceptionType';
+import {AppThunkAction} from './applicationStore';
 import generateUUID from '../helpers/uuidHelper';
-import {applicationLoaderActionCreators} from './applicationLoaderStore';
+import DateHelper from '../helpers/dateHelper';
 import {LoaderType} from '../enums/loaderType';
+import {CustomThunkDispatch} from '../types';
 
 export interface TranslationState {
     apiLanguages: ApiLanguageModel[],
@@ -34,8 +34,6 @@ interface ReceiveApiLanguageAction {
 
 interface RequestLiveTranslateAction {
     type: 'REQUEST_LIVE_TRANSLATE_ACTION',
-    translateLang: string,
-    translationLang: string,
     liveTranslate?: string
 }
 
@@ -45,7 +43,13 @@ interface ReceiveLiveTranslateAction {
     translationHistory: TranslationModel[]
 }
 
-type KnownAction = RequestApiLanguagesAction | ReceiveApiLanguageAction | RequestLiveTranslateAction | ReceiveLiveTranslateAction;
+interface SetTranslationLangAction {
+    type: 'SET_TRANSLATION_LANG_ACTION',
+    fromLang: string,
+    toLang: string
+}
+
+type KnownAction = RequestApiLanguagesAction | ReceiveApiLanguageAction | RequestLiveTranslateAction | ReceiveLiveTranslateAction | SetTranslationLangAction;
 
 const unloadedState: TranslationState = {
     apiLanguages: [],
@@ -71,9 +75,12 @@ export const translationActionCreators = {
             dispatch({type: 'REQUEST_API_LANGUAGE_ACTION'});
         }
     },
-    getTranslation: (translate: string | undefined, fromLang: string, toLang: string): AppThunkAction<KnownAction> => (dispatch, getState) => {
+    getTranslation: (translate: string | undefined): AppThunkAction<KnownAction> => (dispatch, getState) => {
         const globalDispatch = dispatch as CustomThunkDispatch;
         const loaderId = 'live-translate-fetch';
+        const fromLang = getState().TranslationState.translateLang;
+        const toLang = getState().TranslationState.translationLang;
+
         const translationHistory = getState().TranslationState.translationHistory;
         if (!translate) {
             dispatch({type: 'RECEIVE_LIVE_TRANSLATE_ACTION', translation: undefined, translationHistory: translationHistory});
@@ -86,15 +93,15 @@ export const translationActionCreators = {
             return;
         }
 
-        fetchApi.post<string>(applicationConfig.serviceUrls.getLanguageList, {q: translate, source: fromLang, target: toLang, format: 'text'}).then(response => {
+        fetchApi.post<{ translatedText: string }>(applicationConfig.serviceUrls.postTranslate, {q: translate, source: fromLang, target: toLang, format: 'text'}).then(response => {
             translationHistory.push({
                 translate: translate,
                 fromLang: fromLang,
                 toLang: toLang,
                 date: new Date(),
-                translation: response.data
+                translation: response.data.translatedText
             });
-            dispatch({type: 'RECEIVE_LIVE_TRANSLATE_ACTION', translation: response.data, translationHistory: translationHistory});
+            dispatch({type: 'RECEIVE_LIVE_TRANSLATE_ACTION', translation: response.data.translatedText, translationHistory: translationHistory});
         }).catch((exception: AxiosError) => {
             globalDispatch(applicationErrorActionCreators.generateApplicationError(exception.message, ExceptionType.error, exception.code, true));
         }).finally(() => {
@@ -102,7 +109,10 @@ export const translationActionCreators = {
         });
 
         globalDispatch(applicationLoaderActionCreators.showGlobalLoader({name: 'live-translate-fetch', defaultTranslation: 'Çeviriliyor...'}, loaderId, LoaderType.custom));
-        dispatch({type: 'REQUEST_LIVE_TRANSLATE_ACTION', translateLang: fromLang, translationLang: toLang, liveTranslate: translate});
+        dispatch({type: 'REQUEST_LIVE_TRANSLATE_ACTION', liveTranslate: translate});
+    },
+    setTranslationLang: (fromLang: string, toLang: string): AppThunkAction<KnownAction> => (dispatch) => {
+        dispatch({type: 'SET_TRANSLATION_LANG_ACTION', fromLang, toLang});
     }
 }
 
@@ -113,6 +123,12 @@ export const translationDataReducer: Reducer<TranslationState> = (state: Transla
 
     const action = incomingAction as KnownAction
     switch (action.type) {
+        case 'SET_TRANSLATION_LANG_ACTION':
+            return {
+                ...state,
+                translateLang: action.fromLang,
+                translationLang: action.toLang
+            }
         case 'REQUEST_API_LANGUAGE_ACTION':
             return {
                 ...state,
@@ -129,8 +145,6 @@ export const translationDataReducer: Reducer<TranslationState> = (state: Transla
             return {
                 ...state,
                 isFetchTranslate: true,
-                translateLang: action.translateLang,
-                translationLang: action.translationLang,
                 liveTranslate: action.liveTranslate,
                 liveTranslation: action.liveTranslate && state.liveTranslation
             }
@@ -138,7 +152,8 @@ export const translationDataReducer: Reducer<TranslationState> = (state: Transla
             return {
                 ...state,
                 liveTranslation: action.translation,
-                translationHistory: action.translationHistory
+                translationHistory: action.translationHistory,
+                isFetchTranslate: false
             }
 
     }
