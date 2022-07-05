@@ -1,5 +1,4 @@
 import * as Updates from 'expo-updates';
-import * as Haptics from 'expo-haptics';
 import React, {FunctionComponent} from 'react';
 import {MaterialIcons} from '@expo/vector-icons';
 import {useDispatch, useSelector} from 'react-redux';
@@ -22,7 +21,6 @@ const TestComponent: FunctionComponent = () => {
 
     const testItems = [
         {title: 'Storage & App'},
-        {title: 'Vibration Test', icon: 'vibration', onPress: () => Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy)},
         {title: 'View Storage (Console)', icon: 'storage', onPress: () => handleWriteStorage()},
         {title: 'Clear Storage', icon: 'update-disabled', onPress: () => handleClearStorage()},
         {title: 'Reload Application', icon: 'system-update-tv', onPress: () => handleReloadApplication()},

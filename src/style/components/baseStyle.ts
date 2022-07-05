@@ -53,41 +53,10 @@ export const BaseStyle = StyleSheet.create({
         flex: 1,
         overflow: Platform.OS == 'ios' ? 'hidden' : 'scroll',
         borderRadius: SizeHelper.calculateWidth(10),
-        marginTop: SizeHelper.calculateHeight(120),
     },
     customScroll: {
         marginHorizontal: SizeHelper.calculateWidth(StylesHelper.contentPadding),
-        marginBottom: SizeHelper.calculateHeight(50),
-        paddingTop: SizeHelper.calculateHeight(260),
-    },
-
-    animationContent: {
-        flex: 1,
-        paddingBottom: SizeHelper.deviceHeight / 3
-    },
-    customContent: {
-        flex: 1,
-        backgroundColor: StylesHelper.white,
-        borderRadius: SizeHelper.calculateWidth(10)
-    },
-    sectionContainer: {
-        padding: SizeHelper.calculateWidth(StylesHelper.contentPadding)
-    },
-    pageSummary: {
-        ...StylesHelper.WriteFont(26, '300', StylesHelper.project1)
-    },
-
-    formContainer: {
-        flex: 1,
-        backgroundColor: StylesHelper.white,
-        borderRadius: SizeHelper.calculateWidth(10),
-        overflow: 'hidden'
-    },
-    formScroll: {
-        flex: 1
-    },
-    formScrollTop: {
-        marginTop: SizeHelper.calculateHeight(40)
+        marginBottom: SizeHelper.calculateHeight(StylesHelper.contentPadding),
     },
     keyboardAvoid: {
         flex: 1,
@@ -125,5 +94,25 @@ export const BaseStyle = StyleSheet.create({
     notFoundButtonIcon: {
         color: StylesHelper.gray700,
         fontSize: SizeHelper.calculateWidth(28)
+    },
+
+    appMenuTabContainer: {
+        justifyContent: 'center',
+        alignItems: 'center',
+        paddingTop: SizeHelper.calculateHeight(15)
+    },
+    appMenuTabIcon: {
+        color: StylesHelper.project5,
+        fontSize: SizeHelper.calculateWidth(45)
+    },
+    appMenuTabText: {
+        marginTop: SizeHelper.calculateHeight(5),
+        ...StylesHelper.WriteFont(22, '400', StylesHelper.gray600)
+    },
+    appMenuTabIconActive: {
+        color: StylesHelper.project2
+    },
+    appMenuTabTextActive: {
+        color: StylesHelper.gray900
     }
 });

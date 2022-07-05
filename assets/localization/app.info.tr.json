@@ -1,9 +1,0 @@
-{
-  "NSLocationWhenInUseUsageDescription": "Adres tarifi yapabilmek, yakınınızda olan kayıtlı firmaları gösterebilmek için konum servislerini kullanmamız gerekiyor. Onaylıyor musunuz?",
-  "NSCameraUsageDescription": "Firmalara mesaj gönderimi sırasında ve ürün talebi oluştururken fotoğraf gönderebilmeniz için kameranıza erişmemiz gerekiyor. Onaylıyor musunuz?",
-  "cameraPermission": "Firmalara mesaj gönderimi sırasında ve ürün talebi oluştururken fotoğraf gönderebilmeniz için kameranıza erişmemiz gerekiyor. Onaylıyor musunuz?",
-  "NSPhotoLibraryUsageDescription": "Firmalara mesaj gönderimi sırasında ve ürün talebi oluştururken fotoğraf gönderebilmeniz için resim galerinize erişmemiz gerekiyor. Onaylıyor musunuz?",
-  "photosPermission": "Firmalara mesaj gönderimi sırasında ve ürün talebi oluştururken fotoğraf gönderebilmeniz için resim galerinize erişmemiz gerekiyor. Onaylıyor musunuz?",
-  "NSPhotoLibraryAddUsageDescription": "Seçtiğiniz fotoğrafları galerinize kaydedebilmek için izne ihtiyaç duyuyoruz. Onaylıyor musunuz?",
-  "savePhotosPermission": "Seçtiğiniz fotoğrafları galerinize kaydedebilmek için izne ihtiyaç duyuyoruz. Onaylıyor musunuz?"
-}

@@ -36,26 +36,10 @@ export default (): ExpoConfig => {
             adaptiveIcon: {
                 foregroundImage: './assets/native/adaptive-icon.png',
                 backgroundColor: '#FFFFFF'
-            },
-            permissions: [
-                'ACCESS_MEDIA_LOCATION',
-                'RECEIVE_BOOT_COMPLETED',
-                'ACCESS_COARSE_LOCATION',
-                'ACCESS_FINE_LOCATION',
-                'CAMERA',
-                'MANAGE_DOCUMENTS',
-                'READ_EXTERNAL_STORAGE ',
-                'WRITE_EXTERNAL_STORAGE',
-                'VIBRATE'
-            ]
+            }
         },
         web: {
             favicon: './assets/favicon.png'
-        },
-        plugins: [],
-        locales: {
-            'tr': './assets/localization/app.info.tr.json',
-            'en': './assets/localization/app.info.en.json'
         }
     }
 }

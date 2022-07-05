@@ -7,6 +7,7 @@ import {applicationLanguageActionCreators, ApplicationLanguageState} from '../..
 import {ApplicationStates} from '../../stores/applicationStore';
 import {CustomThunkDispatch, Nullable} from '../../types';
 import {LanguageModel} from '../../models/languageModel';
+import {translationActionCreators} from '../../stores/translationStore';
 
 const ApplicationLanguageProvider: FunctionComponent = (props) => {
     const dispatch = useDispatch<CustomThunkDispatch>();
@@ -14,6 +15,7 @@ const ApplicationLanguageProvider: FunctionComponent = (props) => {
 
     useEffect(() => {
         dispatch(applicationLanguageActionCreators.initLocalizationSystem());
+        dispatch(translationActionCreators.getApiLanguages());
     }, [dispatch]);
 
     useEffect(() => {
