@@ -26,7 +26,7 @@ const LaunchScreen: FunctionComponent = () => {
     }
 
     const swapTranslationLanguage = () => {
-        dispatch(translationActionCreators.setTranslationLang(translationState.translationLang, translationState.translateLang));
+        dispatch(translationActionCreators.getTranslation(translationState.liveTranslate, translationState.translationLang, translationState.translateLang));
     }
 
     return (

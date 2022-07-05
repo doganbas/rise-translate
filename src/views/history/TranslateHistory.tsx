@@ -1,13 +1,13 @@
+import {useSelector} from 'react-redux';
+import {useTranslation} from 'react-i18next';
 import React, {FunctionComponent} from 'react';
 import {Text, FlatList, ListRenderItemInfo, View} from 'react-native';
-import {useSelector} from 'react-redux';
+import {TranslationHistoryStyle} from '../../style/components/translaterHistoryStyle';
 import {ApplicationStates} from '../../stores/applicationStore';
 import {TranslationState} from '../../stores/translationStore';
 import {BaseStyle} from '../../style/components/baseStyle';
 import {TranslationModel} from '../../models/translationModel';
 import DateHelper from '../../helpers/dateHelper';
-import {useTranslation} from 'react-i18next';
-import {TranslationHistoryStyle} from '../../style/components/translaterHistoryStyle';
 
 export const TranslationHistory: FunctionComponent = () => {
     const translationState = useSelector<ApplicationStates, TranslationState>(states => states.TranslationState);

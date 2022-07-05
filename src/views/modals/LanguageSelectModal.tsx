@@ -22,7 +22,7 @@ const LanguageSelectModal: FunctionComponent = () => {
     const handlePressSelectLanguage = (selectedItem: ApiLanguageModel) => {
         const fromLang = route.params.languageType == 'from' ? selectedItem.code : translatorState.translateLang;
         const toLang = route.params.languageType == 'to' ? selectedItem.code : translatorState.translationLang;
-        dispatch(translationActionCreators.setTranslationLang(fromLang, toLang));
+        dispatch(translationActionCreators.getTranslation(translatorState.liveTranslate, fromLang, toLang));
         navigation.goBack();
     }
 

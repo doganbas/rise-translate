@@ -8,8 +8,6 @@ export const TranslationHistoryStyle = StyleSheet.create({
     },
     historyTitleContainer: {
         padding: SizeHelper.calculateWidth(StylesHelper.contentPadding),
-        borderBottomColor: StylesHelper.gray700,
-        borderBottomWidth: 1,
         backgroundColor: StylesHelper.white
     },
     historyTitle: {

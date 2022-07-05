@@ -40,16 +40,12 @@ interface RequestLiveTranslateAction {
 interface ReceiveLiveTranslateAction {
     type: 'RECEIVE_LIVE_TRANSLATE_ACTION',
     translation?: string,
-    translationHistory: TranslationModel[]
-}
-
-interface SetTranslationLangAction {
-    type: 'SET_TRANSLATION_LANG_ACTION',
+    translationHistory: TranslationModel[],
     fromLang: string,
     toLang: string
 }
 
-type KnownAction = RequestApiLanguagesAction | ReceiveApiLanguageAction | RequestLiveTranslateAction | ReceiveLiveTranslateAction | SetTranslationLangAction;
+type KnownAction = RequestApiLanguagesAction | ReceiveApiLanguageAction | RequestLiveTranslateAction | ReceiveLiveTranslateAction;
 
 const unloadedState: TranslationState = {
     apiLanguages: [],
@@ -75,21 +71,21 @@ export const translationActionCreators = {
             dispatch({type: 'REQUEST_API_LANGUAGE_ACTION'});
         }
     },
-    getTranslation: (translate: string | undefined): AppThunkAction<KnownAction> => (dispatch, getState) => {
+    getTranslation: (translate: string | undefined, translaLang?: string, translationLang?: string): AppThunkAction<KnownAction> => (dispatch, getState) => {
         const globalDispatch = dispatch as CustomThunkDispatch;
         const loaderId = 'live-translate-fetch';
-        const fromLang = getState().TranslationState.translateLang;
-        const toLang = getState().TranslationState.translationLang;
+        const fromLang = translaLang || getState().TranslationState.translateLang;
+        const toLang = translationLang || getState().TranslationState.translationLang;
 
         const translationHistory = getState().TranslationState.translationHistory;
         if (!translate) {
-            dispatch({type: 'RECEIVE_LIVE_TRANSLATE_ACTION', translation: undefined, translationHistory: translationHistory});
+            dispatch({type: 'RECEIVE_LIVE_TRANSLATE_ACTION', translation: undefined, translationHistory: translationHistory, fromLang, toLang});
             return;
         }
 
         const historyTranslation = translationHistory.find(nq => nq.translate.toLowerCase() == translate!.toLowerCase() && nq.fromLang == fromLang && nq.toLang == toLang);
         if (historyTranslation) {
-            dispatch({type: 'RECEIVE_LIVE_TRANSLATE_ACTION', translation: historyTranslation.translation, translationHistory: translationHistory});
+            dispatch({type: 'RECEIVE_LIVE_TRANSLATE_ACTION', translation: historyTranslation.translation, translationHistory: translationHistory, fromLang, toLang});
             return;
         }
 
@@ -101,7 +97,7 @@ export const translationActionCreators = {
                 date: new Date(),
                 translation: response.data.translatedText
             });
-            dispatch({type: 'RECEIVE_LIVE_TRANSLATE_ACTION', translation: response.data.translatedText, translationHistory: translationHistory});
+            dispatch({type: 'RECEIVE_LIVE_TRANSLATE_ACTION', translation: response.data.translatedText, translationHistory: translationHistory, fromLang, toLang});
         }).catch((exception: AxiosError) => {
             globalDispatch(applicationErrorActionCreators.generateApplicationError(exception.message, ExceptionType.error, exception.code, true));
         }).finally(() => {
@@ -110,10 +106,6 @@ export const translationActionCreators = {
 
         globalDispatch(applicationLoaderActionCreators.showGlobalLoader({name: 'live-translate-fetch', defaultTranslation: 'Çeviriliyor...'}, loaderId, LoaderType.custom));
         dispatch({type: 'REQUEST_LIVE_TRANSLATE_ACTION', liveTranslate: translate});
-    },
-    setTranslationLang: (fromLang: string, toLang: string): AppThunkAction<KnownAction> => (dispatch) => {
-        dispatch({type: 'SET_TRANSLATION_LANG_ACTION', fromLang, toLang});
-        //TODO Get Translation
     }
 }
 
@@ -124,12 +116,6 @@ export const translationDataReducer: Reducer<TranslationState> = (state: Transla
 
     const action = incomingAction as KnownAction
     switch (action.type) {
-        case 'SET_TRANSLATION_LANG_ACTION':
-            return {
-                ...state,
-                translateLang: action.fromLang,
-                translationLang: action.toLang
-            }
         case 'REQUEST_API_LANGUAGE_ACTION':
             return {
                 ...state,
@@ -154,6 +140,8 @@ export const translationDataReducer: Reducer<TranslationState> = (state: Transla
                 ...state,
                 liveTranslation: action.translation,
                 translationHistory: action.translationHistory,
+                translationLang: action.toLang,
+                translateLang: action.fromLang,
                 isFetchTranslate: false
             }
 
